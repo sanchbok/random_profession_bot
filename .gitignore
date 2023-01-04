@@ -2,5 +2,5 @@ venv
 .idea
 data
 __pycache__
-run_container.sh
 docker-compose.yaml
+.env
