@@ -1,0 +1,6 @@
+pymorphy2
+pandas
+aiogram
+requests
+beautifulsoup4
+lxml
