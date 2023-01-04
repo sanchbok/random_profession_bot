@@ -72,12 +72,12 @@ class MyBot:
 
 @dp.message_handler(commands=['start'])
 async def start(message):
-    my_bot = MyBot('../data/database.csv', '../data/cities.txt', '../data/professions.txt')
-    my_bot.create_database()
     userid = message.from_user.id
     info = my_bot.get_user_info(userid)
     await message.reply(f'Сегодня ты - {info}')
 
 
 if __name__ == '__main__':
+    my_bot = MyBot('../data/database.csv', '../data/cities.txt', '../data/professions.txt')
+    my_bot.create_database()
     executor.start_polling(dp)
