@@ -1,4 +1,7 @@
+import os
 import requests
+import pandas as pd
+from sqlalchemy import create_engine
 from bs4 import BeautifulSoup
 from typing import List
 
@@ -32,13 +35,25 @@ def parse_html(html: bytes, styles: List[str]) -> List[str]:
     return cities
 
 
+def save_to_database(data: List[str]) -> None:
+    params = {
+        'dialect': 'postgresql',
+        'driver': 'psycopg2',
+        'user': os.environ.get('POSTGRES_USER'),
+        'password': os.environ.get('POSTGRES_PASSWORD'),
+        'hostname': 'my_postgres',
+        'port': '5432',
+        'database': os.environ.get('POSTGRES_DB')
+    }
+    postgres_engine = create_engine('{dialect}+{driver}://{user}:{password}@{hostname}:{port}/{database}'.format(**params))
+    data = pd.DataFrame(data={'city': data})
+    data.to_sql(name='cities', con=postgres_engine, schema='public', if_exists='replace', index=False)
+
+
 def main():
     html = get_html(url)
     cities = parse_html(html, styles)
-
-    with open('../data/cities.txt', 'w') as file:
-        for city in cities:
-            file.write(city + '\n')
+    save_to_database(cities)
 
 
 if __name__ == '__main__':

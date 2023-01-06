@@ -4,3 +4,5 @@ aiogram
 requests
 beautifulsoup4
 lxml
+SQLAlchemy
+psycopg2
