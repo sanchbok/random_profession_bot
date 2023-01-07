@@ -86,7 +86,7 @@ class MyBot:
         current_ts = dt.datetime.now().replace(microsecond=0)
 
         if userid in data.userid.values:
-            if current_ts - pd.to_datetime(data.loc[data.userid == userid, 'ts'].values[0]) > dt.timedelta(minutes=1):
+            if current_ts - pd.to_datetime(data.loc[data.userid == userid, 'ts'].values[0]) > dt.timedelta(hours=12):
                 info = self.get_random_user_info()
                 query = f'''
                     UPDATE public.user_info SET (info, ts) = ('{info}', '{current_ts}'); 
