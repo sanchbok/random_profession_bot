@@ -89,7 +89,7 @@ class MyBot:
             if current_ts - pd.to_datetime(data.loc[data.userid == userid, 'ts'].values[0]) > dt.timedelta(hours=12):
                 info = self.get_random_user_info()
                 query = f'''
-                    UPDATE public.user_info SET (info, ts) = ('{info}', '{current_ts}'); 
+                    UPDATE public.user_info SET (info, ts) = ('{info}', '{current_ts}') WHERE userid = {userid}; 
                 '''
                 self.engine.execute(query)
             else:
